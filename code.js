@@ -70,7 +70,6 @@ const Keyboad={
 
                     keyElement.addEventListener('click',()=>{
                         this._toggleCaps(keyElement);
-                        // keyElement.classList.toggle('active',this.properties.caps)
                     })
                 break
 
@@ -100,7 +99,6 @@ const Keyboad={
 
                     keyElement.addEventListener('click',()=>{
                        this.close();
-                    //    this._triggerEvent('onclose');
                     })
                 break
                 default:
@@ -136,8 +134,6 @@ const Keyboad={
                 key.textContent = this.properties.caps ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
             }
         }
-
-
     },
 
     open(initalValue,oninput){
@@ -155,5 +151,3 @@ const Keyboad={
 window.addEventListener('DOMContentLoaded',function(){
     Keyboad.init();
 })
-
-
