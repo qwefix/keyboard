@@ -2,7 +2,8 @@ const Keyboad={
     elements:{
         main:null,
         keysContainer:null,
-        keys:[]
+        keys:[],
+        hint:null,
     },
 
     eventHandlers:{
@@ -18,13 +19,17 @@ const Keyboad={
     init(){
         this.elements.main=document.createElement("div");
         this.elements.keysContainer=document.createElement("div");
+        this.elements.hint = document.createElement('div');
+        this.elements.hint.innerHTML = "ESC to close keyboard";
 
+        this.elements.hint.classList.add("hint");
         this.elements.main.classList.add("keyboard","keyboard--hidden");
         this.elements.keysContainer.classList.add("keys");
         this.elements.keysContainer.appendChild(this._createKeys());
 
         this.elements.keys = this.elements.keysContainer.querySelectorAll('.key')
 
+        this.elements.main.appendChild(this.elements.hint);
         this.elements.main.appendChild(this.elements.keysContainer);
         document.body.appendChild(this.elements.main);
 
@@ -146,6 +151,8 @@ const Keyboad={
     },
 
     open(element,oninput){
+        this.elements.hint.classList.remove("hidden")
+        setTimeout(()=>{this.elements.hint.classList.add("hidden")},3000)
         this.properties.currentElement = element;
         this.properties.value = element.value || '';
         this.eventHandlers.oninput = oninput;
