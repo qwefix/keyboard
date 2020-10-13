@@ -12,6 +12,7 @@ const Keyboad={
     properties:{
         value:'',
         caps:false,
+        currentElement:[],
     },
 
     init(){
@@ -29,11 +30,13 @@ const Keyboad={
 
         document.querySelectorAll('.use-keyboard-input').forEach(element=>{
             element.addEventListener('focus',()=>{
-                this.open(element.value, currentValue=>{
+                this.open(element, currentValue=>{
                     element.value=currentValue;
+                    
                 })
             })
         })
+        
     },
 
     _createKeys(){
@@ -135,16 +138,25 @@ const Keyboad={
             }
         }
     },
+    physicalKeyboardFix(evt){
+        Keyboad.properties.value = Keyboad.properties.currentElement.value;
+        if(evt.keyCode===27){
+            Keyboad.close()
+        }
+    },
 
-    open(initalValue,oninput){
-        this.properties.value = initalValue || '';
+    open(element,oninput){
+        this.properties.currentElement = element;
+        this.properties.value = element.value || '';
         this.eventHandlers.oninput = oninput;
         this.elements.main.classList.remove('keyboard--hidden')
+        window.addEventListener('keyup' , this.physicalKeyboardFix );
     },
     close(){
         this.properties.value = '';
         if(this.properties.caps)this._toggleCaps(this.elements.keysContainer.querySelector('.caps'));
-        this.elements.main.classList.add('keyboard--hidden')
+        this.elements.main.classList.add('keyboard--hidden');
+        window.removeEventListener('keyup' , this.physicalKeyboardFix )
     },
 }
 
