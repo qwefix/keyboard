@@ -65,16 +65,18 @@
 .keyboard>.keys>.key:active{
     background: rgba(255, 255, 255, 0.1);
 }
-.keyboard>.hint{
-    position: relative;
-    transition: bottom 1s;
-    
+.keyboard--hint{
+    width: 80%;
+    left: 10%;
+    background: rgba(207, 207, 207, 0.8); ;
+    border-radius: 5px;
+    position: absolute;
+    top: 1rem;
+    transition: top 1s;
     text-align: center;
-    transition: 1s;
     font-size: 2rem;
-    color: rgba(255, 255, 255, 0.5);
-    padding: 5px;
+    color: rgba(0, 0, 0, 0.5);
 }
-.keyboard>.hint.hidden{
-    display: none;
+.keyboard--hint.hidden{
+    top:-100%;
 }

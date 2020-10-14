@@ -11,6 +11,7 @@ const Keyboad={
     },
 
     properties:{
+        hintShown:false,
         value:'',
         caps:false,
         currentElement:[],
@@ -22,16 +23,17 @@ const Keyboad={
         this.elements.hint = document.createElement('div');
         this.elements.hint.innerHTML = "ESC to close keyboard";
 
-        this.elements.hint.classList.add("hint");
+        this.elements.hint.classList.add("keyboard--hint","hidden");
         this.elements.main.classList.add("keyboard","keyboard--hidden");
         this.elements.keysContainer.classList.add("keys");
         this.elements.keysContainer.appendChild(this._createKeys());
 
         this.elements.keys = this.elements.keysContainer.querySelectorAll('.key')
 
-        this.elements.main.appendChild(this.elements.hint);
+        
         this.elements.main.appendChild(this.elements.keysContainer);
         document.body.appendChild(this.elements.main);
+        document.body.appendChild(this.elements.hint);
 
         document.querySelectorAll('.use-keyboard-input').forEach(element=>{
             element.addEventListener('focus',()=>{
@@ -151,8 +153,11 @@ const Keyboad={
     },
 
     open(element,oninput){
-        this.elements.hint.classList.remove("hidden")
-        setTimeout(()=>{this.elements.hint.classList.add("hidden")},3000)
+        if(!this.properties.hintShown){
+            this.elements.hint.classList.remove("hidden");
+            this.properties.hintShown=true;
+            setTimeout(()=>{this.elements.hint.classList.add("hidden")},5000);
+        }
         this.properties.currentElement = element;
         this.properties.value = element.value || '';
         this.eventHandlers.oninput = oninput;
@@ -163,6 +168,8 @@ const Keyboad={
         this.properties.value = '';
         if(this.properties.caps)this._toggleCaps(this.elements.keysContainer.querySelector('.caps'));
         this.elements.main.classList.add('keyboard--hidden');
+        this.elements.hint.classList.add('hidden');
+        this.properties.hintShown=false;
         window.removeEventListener('keyup' , this.physicalKeyboardFix )
     },
 }
